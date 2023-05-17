@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.5'
 
 networks:
   net:
@@ -11,8 +11,8 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./:/chroma
-      - index_data:/index_data
+      - /userdata2/docker/chroma/:/chroma
+      - /userdata2/docker/chroma/index_data:/index_data
     command: uvicorn chromadb.app:app --reload --workers 1 --host 0.0.0.0 --port 8000 --log-config log_config.yml
     environment:
       - CHROMA_DB_IMPL=clickhouse
@@ -35,11 +35,11 @@ services:
       - '8123:8123'
       - '9000:9000'
     volumes:
-      - clickhouse_data:/var/lib/clickhouse
-      - clickhouse_logs:/var/log/clickhouse-server
-      - backups:/backups
-      - ./config/backup_disk.xml:/etc/clickhouse-server/config.d/backup_disk.xml
-      - ./config/chroma_users.xml:/etc/clickhouse-server/users.d/chroma.xml
+      - /userdata2/docker/chroma/clickhouse_data:/var/lib/clickhouse
+      - /userdata2/docker/chroma/clickhouse_logs:/var/log/clickhouse-server
+      - /userdata2/docker/chroma/backups:/backups
+      - /userdata2/docker/chroma/config/backup_disk.xml:/etc/clickhouse-server/config.d/backup_disk.xml
+      - /userdata2/docker/chroma/config/chroma_users.xml:/etc/clickhouse-server/users.d/chroma.xml
     networks:
       - net
 
